@@ -1,74 +1,61 @@
-from django.http.request import HttpRequest
-from django.http.response import HttpResponse, HttpResponseNotFound
+from django.contrib import auth
+from django.views.generic.list import ListView
 from django.shortcuts import render,redirect
-from .models import *
+from django.http import HttpResponse
+from .models import MyTask
 from .forms import *
 from django.views import View
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
+# from functools import wrapsz
+# from django.contrib.auth.models import User
 
 
-# Create your views here.
-
-# class ShowTask(View):
-
-#     # myForms = TaskForm()
-#     template_name = 'index.html'
-    
-
-#     def get(self,request):
-#         tasks = MyTask.objects.all()
-#         holder = {'tasks':tasks}
-#         return render(request, self.template_name,holder)
-
-    
-#     def post(self, request):
-#         Forms = TaskForm(request.POST)
-#         if Forms.is_valid():
-#             Forms.save()
-#             return redirect('/')
+# class TaskList(ListView):
+#     model = MyTask
 
 
-# class SingleTask(View):
-#     myForms = TaskForm()
+# @login_required
 
-
-#     def get_data(self,pk):
-#         try:
-#             return MyTask.objects.get(id = pk)
-
-#         except MyTask.DoesNotExist:
-#             return HttpResponseNotFound('Item not found')
-
-#     def put(self,request,pk):
-
-#         tasks = self.get_data(pk)
-        
-#         form = self.myForms(request.POST, instance=tasks)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('/')
-        
-        # context = {'form':form}
-        # return render(request, 'tasks/update_task.html',context)
 
 
 
 def index(request):
-    # return HttpResponse('helo people')
-    tasks = MyTask.objects.all()
+    return render(request, 'index.html')
 
-    myForms = TaskForm()
+
+
+@login_required
+def Tasklist(request):
+    
+    # user = request.user
+    # tasks = MyTask.objects.all()
+    # if request.user.is_authenticated():
+    tasks = MyTask.objects.filter(user=request.user)
+    count = MyTask.objects.filter(complete=False).count()
+    # tasks['count'] = tasks['tasks'].filter(complete=False).count()
+
+    
+
+    # myForms = TaskForm()
 
     if request.method =="POST":
         myForms = TaskForm(request.POST)
         if myForms.is_valid():
-            myForms.save()
-        return redirect('/')
+         data = myForms.save(commit=False)
+         data.user = request.user
+         data.save()
 
-    holder = {'tasks':tasks}
-    return render(request, 'index.html',holder)
+        return redirect('tasks')
+
+    holder = {'tasks':tasks, 'count':count}
+
+    return render(request, 'task.html',holder)
 
 
 
+
+@login_required
 def updateTask(request, pk):
     tasks = MyTask.objects.get(id=pk)
 
@@ -77,8 +64,10 @@ def updateTask(request, pk):
     if request.method == 'POST':
         form = TaskForm(request.POST, instance=tasks)
         if form.is_valid():
-            form.save()
-        return redirect('/')
+           data= form.save()
+           data.user = request.user
+           data.save()
+        return redirect('tasks')
 
     holder = {'tasks':tasks}
     return render(request, 'index.html')       
@@ -87,12 +76,13 @@ def updateTask(request, pk):
 
 
 
+@login_required
 def removData(request,pk):
     tasks = MyTask.objects.get(id=pk)
 
     if request.method == "POST":
         tasks.delete()
-        return redirect('/')
+        return redirect('tasks')
     
     holder = {'tasks':tasks}
     return render(request, 'index.html',holder)

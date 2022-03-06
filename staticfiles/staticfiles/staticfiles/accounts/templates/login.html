@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}">
+   <link rel="stylesheet" href="{% static 'css/all.css' %}">
+   <link href="{% static 'ticket.css' %}" rel="stylesheet">
+   <title>GFlight</title>
+</head>
+<body>
+    
+
+
+<div class="container text-center mt-5 error-div">
+  <!-- <h1>hryyy</h1> -->
+</div>
+
+<div class="wrapper fadeInDown mt-5">
+  <div id="formContent">
+    <!-- Tabs Titles -->
+
+    <!-- Icon -->
+    <div class="fadeIn first">
+      <h2>Login</h2>
+    </div>
+
+    <!-- Login Form -->
+    <form class="login-form">
+
+      <div class="form-group mt-4">
+        <input type="email" class="form-control m-auto" id="email" aria-describedby="emailHelp" placeholder="Email" style="width: 50%;">
+      </div>
+
+    <div class="form-group mt-4">
+      <input type="password" class="form-control m-auto" id="password" placeholder="Password" style="width: 50%;">
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Sign In</button>
+
+    <a href="{% url 'register'%}" class="btn btn-secondary mt-3" type="submit">SignUp</a>
+      
+    </form>
+
+    <!-- Remind Passowrd -->
+    <div id="formFooter">
+      <a class="underlineHover" href="#">Forgot Password?</a>
+    </div>
+
+  </div>
+</div>
+   
+  
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="{% static 'script/login.js' %}"></script>
+</body>
+</html>
+
+</body>
+</html>
