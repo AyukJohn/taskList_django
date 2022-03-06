@@ -6,7 +6,7 @@ from .models import *
 from django.views import View
 from django.contrib.auth.models import User
 from django.contrib import messages,auth
-from api_app import urls
+# from api_app import urls
 from django.http import request
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login

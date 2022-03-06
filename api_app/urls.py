@@ -4,6 +4,7 @@ from .import views
 
 
 
+
 urlpatterns = [
     # path('', TaskList.as_view(), name='home'),zz
     path('', views.index, name='home'),
